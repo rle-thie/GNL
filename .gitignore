@@ -2,7 +2,7 @@
 *.d
 
 #fonction non demandées
-printfTester
+test.txt
 
 # Object files
 *.o
