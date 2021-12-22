@@ -1,8 +1,9 @@
-SRCS = 
+SRCS = src/get_next_line.c \
+		src/get_next_line_utils.c
 
 OBJS = ${SRCS:.c=.o}
 
-NAME = libftprintf.a
+NAME = libget_next_line.a
 
 CC = gcc
 
