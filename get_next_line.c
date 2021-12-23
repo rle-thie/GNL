@@ -13,15 +13,43 @@
 #include "get_next_line.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, char *buf)
 {
-	
+	int		ok;
+	char	*dest;
+	int		i;
+
+	i = 0;
+	ok = read(fd, buf, BUFFER_SIZE);
+	buf[ok] = '\0';
+	while (buf[i] != '\0' && buf[i] != '\n')
+		i++;
+	dest = malloc(sizeof(char) * i + 1);
+	if (!dest)
+		return (NULL);
+	dest[i] = '\0';
+	i = -1;
+	while (buf[++i] != '\0' && buf[i] != '\n')
+		dest[i] = buf[i];
+	free(buf);
+	return (dest);
 }
 
 int	main(void)
 {
-	get_next_line(BUFFER_SIZE);
-	printf("%d", BUFFER_SIZE);
+	int			fd;
+	static char	*buf;
+	char		*tab;
+
+	fd = open("test.txt", 'r');
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (1);
+	tab = get_next_line(fd, buf);
+	printf("%s\n", tab);
 	return (0);
 }
