@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:59:30 by rle-thie          #+#    #+#             */
-/*   Updated: 2021/12/22 17:31:16 by rle-thie         ###   ########.fr       */
+/*   Updated: 2021/12/24 16:59:04 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,34 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-char	*get_next_line(int fd, char *buf)
+// char	*ft_strtrim_front(char *str, char *stat)
+// {
+// 	int	i;
+// 	int	len_stat;
+// 	int	ttlen;
+	
+// 	len_stat = strlen(stat);
+// 	ttlen = strlen(str) - len_stat;
+// 	i = 0;
+	
+// 	while(str[i] && i < len)
+// 	{
+		
+// 		i++;
+// 	}
+// }
+
+char	*get_next_line(int fd)
 {
 	int		ok;
 	char	*dest;
 	int		i;
+	static char	*buf;
 
 	i = 0;
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (NULL);
 	ok = read(fd, buf, BUFFER_SIZE);
 	buf[ok] = '\0';
 	while (buf[i] != '\0' && buf[i] != '\n')
@@ -41,15 +62,15 @@ char	*get_next_line(int fd, char *buf)
 
 int	main(void)
 {
-	int			fd;
-	static char	*buf;
-	char		*tab;
+	int		fd;
+	char	*tab;
+	char	*tab2;
 
 	fd = open("test.txt", 'r');
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (1);
-	tab = get_next_line(fd, buf);
+	tab = get_next_line(fd);
 	printf("%s\n", tab);
+	tab2 = get_next_line(fd);
+	printf("%s\n", tab2);
+	free(tab2);
 	return (0);
 }
