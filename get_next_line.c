@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:59:30 by rle-thie          #+#    #+#             */
-/*   Updated: 2021/12/24 18:01:12 by rle-thie         ###   ########.fr       */
+/*   Updated: 2021/12/24 18:07:10 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(void)
 	// printf("%s\n", tab);
 	// tab2 = get_next_line(fd);
 	// printf("%s\n", tab2);
-	// free(tab2);
+	// free(tab2)
 	printf("%s", ft_strtrim_front(tab, tab2));
 	return (0);
 }
