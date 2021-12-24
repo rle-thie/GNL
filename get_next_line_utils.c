@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 15:19:19 by rle-thie          #+#    #+#             */
-/*   Updated: 2021/12/22 15:36:46 by rle-thie         ###   ########.fr       */
+/*   Updated: 2021/12/24 17:26:24 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,14 @@ void	ft_putstr(char *str)
 	i = 0;
 	while (str[i])
 		ft_putchar(str[i++]);
+}
+
+size_t	ft_strlen(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while(str[i])
+		i++;
+	return (i);
 }
