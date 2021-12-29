@@ -29,11 +29,12 @@ char	*ft_strtrim_front(char *stat, char *str)
 	if (ttlen <= 0)
 		return (NULL);
 	i = ft_strlen(str);
-	tab = malloc(sizeof(char) * ttlen + 1);
-	tab[ttlen] = '\0';
+	tab = malloc(sizeof(char) * ttlen);
+	tab[ttlen - 1] = '\0';
 	if (!tab)
 		return (NULL);
-	if (stat[i+1] == '\n')
+	//printf("l=%d.", stat[i]);
+	if (stat[i] == '\n')
 		i++;
 	while(stat[i] && i < ft_strlen(stat))
 	{
@@ -81,7 +82,7 @@ char *get_next_line(int fd)
 int	main(void)
 {
 	int		fd;
-	char	*tab = "abc\ndef\nghi";
+	char	*tab = "abcdefghi";
 	char	*tab2 = "abc";
 	char	*tab3;
 
