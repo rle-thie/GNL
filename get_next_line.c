@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:59:30 by rle-thie          #+#    #+#             */
-/*   Updated: 2022/01/03 13:26:06 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/03 16:13:15 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,47 @@
 
 char	*ft_strtrim_front(char *str)
 {
-	int	i;
-	char *tab;
+	size_t	i;
 
 	i = 0;
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;
 	if (i == ft_strlen(str))
 		return (NULL);
-	if (str[i] == '\n')
+	else if (str[i] == '\n')
 		return (&str[i+1]);
+	else
+		return (NULL);
 }
 
 char	*full_file(int fd, char *str)
 {
-	int	count;
-	int	i;
-	char *tab;
-
-	i = 0;
-	count = read(fd, str, BUFFER_SIZE);
-	str[count] = '\0';
-	tab = malloc(sizeof(char) * ft_strlen(str) + 1);
-	if (!tab)
+	size_t	count;
+	char	*buf;
+	
+	count = 1;
+	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buf)
 		return (NULL);
-	while (i < ft_strlen(str))
+	while(ft_strchr(str, '\n') == 0 && count > 0)
 	{
-		tab[i] = str[i];
-		i++;
+		count = read(fd, str, BUFFER_SIZE);
+		if (count < 1)
+		{
+			
+		}
 	}
-	tab[i] = '\0';
-	free(str);
-	// printf("%s\n", tab);
-	return (tab);
 }
 
 char	*read_line(char *str)
 {
-	int i;
+	size_t i;
 	char *tab;
 	
 	i = 0;
 	while (str[i] != '\0' && str[i] != '\n')
+		i++;
+	if (str[i] == '\n')
 		i++;
 	tab = malloc(sizeof(char) * i + 1);
 	if (!tab)
@@ -71,6 +70,8 @@ char	*read_line(char *str)
 		tab[i] = str[i];
 		i++;
 	}
+	if (str[i] == '\n')
+		tab[i] = str[i];
 	// free(str);
 	return (tab);
 }
@@ -80,39 +81,43 @@ char *get_next_line(int fd)
 	static char	*buf;
 	char		*line;
 	
-	if (fd < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!buf)
 	{
 		buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (!buf)
 			return (NULL);
+		buf[0] = '\0';
 		buf = full_file(fd, buf);
 	}
-	
 	line = read_line(buf);
-	// printf("'%s'\n", buf);
+	if (!buf)
+		return (NULL);
 	buf = ft_strtrim_front(buf);
-	// printf("'%s'\n", buf);
 	return (line);
 }
 
-int	main(void)
-{
+ int	main(void)
+ {
 	int		fd;
+ 	char	*str;
 	char	*tab;
 	char	*tab2;
-	// char	*tab3;
+	char	*tab3;
 
-	fd = open("test.txt", 'r');
-	tab = get_next_line(fd);
-	printf("ligne : %s.\n", tab);
+	fd = open("test.txt", O_RDONLY);
+	// while ((str = get_next_line(fd)) != NULL)
+	// {
+	// 	printf ("%s\n", str);
+	// 	printf ("ROBIN LA SALOPE");
+	// 	free(str);
+	// }
 	tab2 = get_next_line(fd);
-	printf("ligne : %s.", tab2);
-	free(tab);
+	printf("%s", tab2);
 	free(tab2);
-	// tab2 = get_next_line(fd);
-	// printf("--%s--", tab2);
-	// free(tab);
+	tab = get_next_line(fd);
+	printf("%s", tab);
+	free(tab);
 	return (0);
 }
