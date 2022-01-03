@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:59:30 by rle-thie          #+#    #+#             */
-/*   Updated: 2022/01/03 13:14:47 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/03 13:26:06 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int	main(void)
 	printf("ligne : %s.\n", tab);
 	tab2 = get_next_line(fd);
 	printf("ligne : %s.", tab2);
+	free(tab);
+	free(tab2);
 	// tab2 = get_next_line(fd);
 	// printf("--%s--", tab2);
 	// free(tab);
