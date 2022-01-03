@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 15:18:39 by rle-thie          #+#    #+#             */
-/*   Updated: 2021/12/24 17:26:28 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/03 15:48:19 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 #include <unistd.h>
 
-void	ft_putstr(char *str);
-void	ft_putchar(char c);
 size_t	ft_strlen(char *str);
+char	*get_next_line(int fd);
+char    *ft_strchr(const char *s, int c);
+char    *ft_strjoin(char const *s1, char const *s2);
 
 #endif
