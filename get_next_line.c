@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:59:30 by rle-thie          #+#    #+#             */
-/*   Updated: 2021/12/24 18:07:10 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/03 13:14:47 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,81 +17,100 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-char	*ft_strtrim_front(char *stat, char *str)
+char	*ft_strtrim_front(char *str)
 {
 	int	i;
-	int	y;
-	int	ttlen;
-	char	*tab;
+	char *tab;
 
-	y = 0;
-	ttlen = ft_strlen(stat) - ft_strlen(str);
-	if (ttlen <= 0)
+	i = 0;
+	while (str[i] != '\0' && str[i] != '\n')
+		i++;
+	if (i == ft_strlen(str))
 		return (NULL);
-	i = ft_strlen(str);
-	tab = malloc(sizeof(char) * ttlen);
-	tab[ttlen - 1] = '\0';
+	if (str[i] == '\n')
+		return (&str[i+1]);
+}
+
+char	*full_file(int fd, char *str)
+{
+	int	count;
+	int	i;
+	char *tab;
+
+	i = 0;
+	count = read(fd, str, BUFFER_SIZE);
+	str[count] = '\0';
+	tab = malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (!tab)
 		return (NULL);
-	//printf("l=%d.", stat[i]);
-	if (stat[i] == '\n')
-		i++;
-	while(stat[i] && i < ft_strlen(stat))
+	while (i < ft_strlen(str))
 	{
-		tab[y] = stat[i];
+		tab[i] = str[i];
 		i++;
-		y++;
 	}
+	tab[i] = '\0';
+	free(str);
+	// printf("%s\n", tab);
 	return (tab);
 }
 
-char	*read_line(int fd, char *buf)
+char	*read_line(char *str)
 {
-	int		ok;
-	char	*dest;
-	int		i;
-
+	int i;
+	char *tab;
+	
 	i = 0;
-	ok = read(fd, buf, BUFFER_SIZE);
-	buf[ok] = '\0';
-	while (buf[i] != '\0' && buf[i] != '\n')
+	while (str[i] != '\0' && str[i] != '\n')
 		i++;
-	dest = malloc(sizeof(char) * i + 1);
-	if (!dest)
+	tab = malloc(sizeof(char) * i + 1);
+	if (!tab)
 		return (NULL);
-	dest[i] = '\0';
-	i = -1;
-	while (buf[++i] != '\0' && buf[i] != '\n')
-		dest[i] = buf[i];
-	free(buf);
-	return (dest);
+	i = 0;
+	while (str[i] != '\0' && str[i] != '\n')
+	{
+		tab[i] = str[i];
+		i++;
+	}
+	// free(str);
+	return (tab);
 }
 
 char *get_next_line(int fd)
 {
 	static char	*buf;
-	char		*tab;
+	char		*line;
 	
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
-	tab = read_line(fd, buf);
-	return (tab);
+	if (!buf)
+	{
+		buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (!buf)
+			return (NULL);
+		buf = full_file(fd, buf);
+	}
+	
+	line = read_line(buf);
+	// printf("'%s'\n", buf);
+	buf = ft_strtrim_front(buf);
+	// printf("'%s'\n", buf);
+	return (line);
 }
 
 int	main(void)
 {
 	int		fd;
-	char	*tab = "abcdefghi";
-	char	*tab2 = "abc";
-	char	*tab3;
+	char	*tab;
+	char	*tab2;
+	// char	*tab3;
 
 	fd = open("test.txt", 'r');
-	// tab = get_next_line(fd);
-	// printf("%s\n", tab);
+	tab = get_next_line(fd);
+	printf("ligne : %s.\n", tab);
+	tab2 = get_next_line(fd);
+	printf("ligne : %s.", tab2);
 	// tab2 = get_next_line(fd);
-	// printf("%s\n", tab2);
-	// free(tab2)
-	printf("%s", ft_strtrim_front(tab, tab2));
+	// printf("--%s--", tab2);
+	// free(tab);
 	return (0);
 }
