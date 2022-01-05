@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:59:30 by rle-thie          #+#    #+#             */
-/*   Updated: 2022/01/05 19:52:42 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/05 20:18:34 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,25 @@
 
 char	*ft_strtrim_front(char *str)
 {
+	size_t		i;
+	char	*stat;
 	
+	i = 0;
+	while (str[i] != '\n' && str[i] != '\0')
+		i++;
+	if (str[i] == '\0')
+		return(NULL);
+	stat = malloc(sizeof(char) * (ft_strlen(str) - i));
+	stat[(ft_strlen(str) - i) - 1] = '\0';
+	if (str[i] == '\n')
+		i++;
+	while(str[i] != '\0')
+	{
+		stat[i] = str[i];
+		i++;
+	}
+	free(str);
+	return (stat);
 }
 
 char	*read_buff(int fd, char *stat)
@@ -88,8 +106,9 @@ char *get_next_line(int fd)
 	printf("line = %s", line);
 	if (!buf)
 		return (NULL);
-	// buf = ft_strtrim_front(buf);
+	buf = ft_strtrim_front(buf);
 	line = NULL;
+	printf("after trim : %s\n", buf);
 	free(buf);
 	return (line);
 }
