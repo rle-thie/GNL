@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:59:30 by rle-thie          #+#    #+#             */
-/*   Updated: 2022/01/05 16:15:45 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/05 19:52:42 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,64 +19,53 @@
 
 char	*ft_strtrim_front(char *str)
 {
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
-		i++;
-	if (i == ft_strlen(str))
-		return (NULL);
-	else if (str[i] == '\n')
-		return (&str[i+1]);
-	else
-		return (NULL);
+	
 }
 
-char	*full_file(int fd, char *str)
+char	*read_buff(int fd, char *stat)
 {
 	size_t	count;
 	char	*buf;
-	
+
 	count = 1;
 	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	buf[BUFFER_SIZE] = '\0';
 	if (!buf)
 		return (NULL);
-	while(ft_strchr(buf, '\n') == 0 && count > 0)
+	while((!ft_strchr(buf, '\n')) && count > 0)
 	{
-		count = read(fd, str, BUFFER_SIZE);
-		if (count < 0)
+		count = read(fd, buf, BUFFER_SIZE);
+		if (count <= 0)
 			break ;
-		str = ft_strjoin(buf, str);
-		
-		
+		stat = ft_strjoin(stat, buf);
+		// printf("%s,%ld,%s\n", buf, count, stat);
 	}
 	free(buf);
-	return (str);
+	return (stat);
 }
 
 char	*read_line(char *str)
 {
 	size_t i;
-	char *tab;
+	char *line;
 	
 	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
+	while(str[i] != '\0' && str[i] != '\n')
 		i++;
-	if (str[i] == '\n')
-		i++;
-	tab = malloc(sizeof(char) * i + 1);
-	if (!tab)
+	if (str[i] == '\0')
+		return (str);
+	line = malloc(sizeof(char) * i + 1);
+	if (!line)
 		return (NULL);
-	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
+		i = 0;
+	while (str[i] != '\n')
 	{
-		tab[i] = str[i];
+		line[i] = str[i];
 		i++;
 	}
 	if (str[i] == '\n')
-		tab[i] = str[i];
-	// free(str);
-	return (tab);
+		line[i] = '\n';
+	return (line);
 }
 
 char *get_next_line(int fd)
@@ -88,16 +77,20 @@ char *get_next_line(int fd)
 		return (NULL);
 	if (!buf)
 	{
-		buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		buf = malloc(sizeof(char) * 1);
 		if (!buf)
 			return (NULL);
 		buf[0] = '\0';
-		buf = full_file(fd, buf);
 	}
+	buf = read_buff(fd, buf);
+	printf("static : %s\n", buf);
 	line = read_line(buf);
+	printf("line = %s", line);
 	if (!buf)
 		return (NULL);
-	buf = ft_strtrim_front(buf);
+	// buf = ft_strtrim_front(buf);
+	line = NULL;
+	free(buf);
 	return (line);
 }
 
@@ -105,22 +98,21 @@ char *get_next_line(int fd)
  {
 	int		fd;
  	char	*str;
-	char	*tab;
-	char	*tab2;
-	char	*tab3;
+	// char	*tab;
+	// char	*tab2;
+	// char	*tab3;
 
 	fd = open("test.txt", O_RDONLY);
-	// while ((str = get_next_line(fd)) != NULL)
-	// {
-	// 	printf ("%s\n", str);
-	// 	printf ("ROBIN LA SALOPE");
-	// 	free(str);
-	// }
-	tab2 = get_next_line(fd);
-	printf("%s", tab2);
-	free(tab2);
-	tab = get_next_line(fd);
-	printf("%s", tab);
-	free(tab);
+	while ((str = get_next_line(fd)) != NULL)
+	{
+		// printf ("%s\n", str);
+		// free(str);
+	}
+	// tab2 = get_next_line(fd);
+	// printf("%s", tab2);
+	// free(tab2);
+	// tab = get_next_line(fd);
+	// printf("%s", tab);
+	// free(tab);
 	return (0);
 }

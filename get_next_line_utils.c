@@ -6,11 +6,12 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 15:19:19 by rle-thie          #+#    #+#             */
-/*   Updated: 2022/01/03 16:10:15 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/05 19:17:51 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdlib.h>
 
 size_t	ft_strlen(char *str)
 {
@@ -35,7 +36,7 @@ char    *ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-char    *ft_strjoin(char const *s1, char const *s2)
+char    *ft_strjoin(char *s1, char *s2)
 {
 	size_t  lentt;
 	char    *tab;
@@ -56,5 +57,6 @@ char    *ft_strjoin(char const *s1, char const *s2)
 	while (s2[y])
 		tab[i++] = s2[y++];
 	tab[i] = '\0';
+	free(s1);
 	return (tab);
 }
