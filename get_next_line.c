@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:59:30 by rle-thie          #+#    #+#             */
-/*   Updated: 2022/01/05 16:14:45 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:15:45 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*full_file(int fd, char *str)
 		if (count < 0)
 			break ;
 		str = ft_strjoin(buf, str);
+		
 		
 	}
 	free(buf);
