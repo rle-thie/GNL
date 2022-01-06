@@ -20,9 +20,11 @@
 char	*ft_strtrim_front(char *str)
 {
 	size_t		i;
+	size_t		y;
 	char	*stat;
 	
 	i = 0;
+	y = 0;
 	while (str[i] != '\n' && str[i] != '\0')
 		i++;
 	if (str[i] == '\0')
@@ -33,8 +35,9 @@ char	*ft_strtrim_front(char *str)
 		i++;
 	while(str[i] != '\0')
 	{
-		stat[i] = str[i];
+		stat[y] = str[i];
 		i++;
+		y++;
 	}
 	free(str);
 	return (stat);
