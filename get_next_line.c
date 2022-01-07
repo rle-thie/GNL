@@ -63,7 +63,7 @@ char	*read_buff(int fd, char *stat)
 	while((!ft_strchr(buf, '\n')) && count > 0)
 	{
 		count = read(fd, buf, BUFFER_SIZE);
-		if (count < 0)
+		if (count <= 0)
 			break ;
 		buf[count] = '\0';
 		stat = ft_strjoin(stat, buf);
