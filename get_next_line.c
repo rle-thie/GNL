@@ -17,6 +17,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+char	*free_ptr(char *tab)
+{
+	free(tab);
+	return (NULL);
+}
+
 char	*ft_strtrim_front(char *str)
 {
 	size_t		i;
@@ -28,7 +34,7 @@ char	*ft_strtrim_front(char *str)
 	while (str[i] != '\n' && str[i] != '\0')
 		i++;
 	if (str[i] == '\0')
-		return(NULL);
+		return(free_ptr(str));
 	stat = malloc(sizeof(char) * (ft_strlen(str) - i));
 	if (!stat)
 		return (NULL);
