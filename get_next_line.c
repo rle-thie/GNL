@@ -30,6 +30,8 @@ char	*ft_strtrim_front(char *str)
 	if (str[i] == '\0')
 		return(NULL);
 	stat = malloc(sizeof(char) * (ft_strlen(str) - i));
+	if (!stat)
+		return (NULL);
 	stat[(ft_strlen(str) - i) - 1] = '\0';
 	if (str[i] == '\n')
 		i++;
@@ -50,14 +52,14 @@ char	*read_buff(int fd, char *stat)
 
 	count = 1;
 	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	buf[BUFFER_SIZE] = '\0';
 	if (!buf)
 		return (NULL);
 	while((!ft_strchr(buf, '\n')) && count > 0)
 	{
 		count = read(fd, buf, BUFFER_SIZE);
-		if (count <= 0)
+		if (count < 0)
 			break ;
+		buf[count] = '\0';
 		stat = ft_strjoin(stat, buf);
 		// printf("%s,%ld,%s\n", buf, count, stat);
 	}
@@ -71,21 +73,27 @@ char	*read_line(char *str)
 	char *line;
 	
 	i = 0;
+	if (str[i] == '\0')
+		return (NULL);
 	while(str[i] != '\0' && str[i] != '\n')
 		i++;
+	// if (str[i] == '\0')
+	// 	return (str);
 	if (str[i] == '\0')
-		return (str);
-	line = malloc(sizeof(char) * i + 1);
+		line = malloc(sizeof(char) * i + 1);
+	else
+		line = malloc(sizeof(char) * i + 2);	
 	if (!line)
 		return (NULL);
-		i = 0;
-	while (str[i] != '\n')
+	i = 0;
+	while (str[i] != '\n' && str[i] != '\0')
 	{
 		line[i] = str[i];
 		i++;
 	}
 	if (str[i] == '\n')
-		line[i] = '\n';
+		line[i++] = '\n';
+	line[i] = '\0';
 	return (line);
 }
 
@@ -104,15 +112,14 @@ char *get_next_line(int fd)
 		buf[0] = '\0';
 	}
 	buf = read_buff(fd, buf);
-	printf("static : %s\n", buf);
-	line = read_line(buf);
-	printf("line = %s", line);
+	// printf("static : %s\n", buf);
 	if (!buf)
 		return (NULL);
+	line = read_line(buf);
+	// printf("line = %s", line);
 	buf = ft_strtrim_front(buf);
-	line = NULL;
-	printf("after trim : %s\n", buf);
-	free(buf);
+	// line = NULL;
+	// printf("after trim : %s\n", buf);
 	return (line);
 }
 
@@ -127,8 +134,8 @@ char *get_next_line(int fd)
 	fd = open("test.txt", O_RDONLY);
 	while ((str = get_next_line(fd)) != NULL)
 	{
-		// printf ("%s\n", str);
-		// free(str);
+		printf ("%s", str);
+		free(str);
 	}
 	// tab2 = get_next_line(fd);
 	// printf("%s", tab2);
