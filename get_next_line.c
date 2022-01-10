@@ -35,7 +35,7 @@ char	*ft_strtrim_front(char *str)
 		i++;
 	if (str[i] == '\0')
 		return(free_ptr(str));
-	stat = malloc(sizeof(char) * (ft_strlen(str) - i));
+	stat = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
 	if (!stat)
 		return (NULL);
 	stat[(ft_strlen(str) - i) - 1] = '\0';
@@ -53,17 +53,18 @@ char	*ft_strtrim_front(char *str)
 
 char	*read_buff(int fd, char *stat)
 {
-	size_t	count;
+	int count;
 	char	*buf;
 
 	count = 1;
 	buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buf)
 		return (NULL);
-	while((!ft_strchr(buf, '\n')) && count > 0)
+	buf[0] = '\0';
+	while(ft_strchr(buf, '\n') == 0 && count > 0)
 	{
 		count = read(fd, buf, BUFFER_SIZE);
-		if (count <= 0)
+		if (count < 0)
 			break ;
 		buf[count] = '\0';
 		stat = ft_strjoin(stat, buf);
@@ -90,7 +91,7 @@ char	*read_line(char *str)
 	else
 		line = malloc(sizeof(char) * i + 2);	
 	if (!line)
-		return (NULL);
+		return (free_ptr(line));
 	i = 0;
 	while (str[i] != '\n' && str[i] != '\0')
 	{
@@ -108,7 +109,7 @@ char *get_next_line(int fd)
 	static char	*buf;
 	char		*line;
 	
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!buf)
 	{
@@ -129,25 +130,15 @@ char *get_next_line(int fd)
 	return (line);
 }
 
- int	main(void)
- {
-	int		fd;
- 	char	*str;
-	// char	*tab;
-	// char	*tab2;
-	// char	*tab3;
-
-	fd = open("test.txt", O_RDONLY);
-	while ((str = get_next_line(fd)) != NULL)
-	{
-		printf ("%s", str);
-		free(str);
-	}
-	// tab2 = get_next_line(fd);
-	// printf("%s", tab2);
-	// free(tab2);
-	// tab = get_next_line(fd);
-	// printf("%s", tab);
-	// free(tab);
-	return (0);
-}
+//  int	main(void)
+//  {
+// 	int		fd;
+//  	char	*str;
+// 	fd = open("test.txt", O_RDONLY);
+// 	while ((str = get_next_line(fd)) != NULL)
+// 	{
+// 		printf ("%s", str);
+// 		free(str);
+// 	}
+// 	return (0);
+// }
