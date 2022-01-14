@@ -103,23 +103,23 @@ char	*read_line(char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*buf;
+	static char	*buf[1024];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!buf)
+	if (!buf[fd])
 	{
-		buf = malloc(sizeof(char) * 1);
-		if (!buf)
+		buf[fd] = malloc(sizeof(char) * 1);
+		if (!buf[fd])
 			return (NULL);
-		buf[0] = '\0';
+		buf[fd][0] = '\0';
 	}
-	buf = read_buff(fd, buf);
-	if (!buf)
+	buf[fd] = read_buff(fd, buf[fd]);
+	if (!buf[fd])
 		return (NULL);
-	line = read_line(buf);
-	buf = ft_strtrim_front(buf);
+	line = read_line(buf[fd]);
+	buf[fd] = ft_strtrim_front(buf[fd]);
 	return (line);
 }
 
