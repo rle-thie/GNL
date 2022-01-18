@@ -6,12 +6,11 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 15:19:19 by rle-thie          #+#    #+#             */
-/*   Updated: 2022/01/11 16:43:59 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/18 12:32:28 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <stdlib.h>
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *str)
 {

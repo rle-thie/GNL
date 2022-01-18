@@ -6,7 +6,7 @@
 /*   By: rle-thie <rle-thie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 15:18:39 by rle-thie          #+#    #+#             */
-/*   Updated: 2022/01/11 16:48:33 by rle-thie         ###   ########.fr       */
+/*   Updated: 2022/01/18 12:39:25 by rle-thie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # include <unistd.h>
+# include <stdlib.h>
 
 size_t	ft_strlen(char *str);
 char	*get_next_line(int fd);
